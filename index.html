@@ -9,13 +9,13 @@
 <meta name="keywords" content="AI경영컨설팅, 기업마케팅, AI에이전트, 스타트업컨설팅, 평택AI교육, 에이전틱AI, 소상공인AI, AI도입컨설팅, 경영자동화, LeonardoAI">
 <meta name="author" content="Leonardo AI Inc.">
 <meta name="robots" content="index, follow">
-<link rel="canonical" href="https://leonardoai.co.kr/">
+<link rel="canonical" href="https://leoai2026.netlify.app/">
 <!-- ===== Open Graph (카카오·페이스북·링크드인 미리보기) ===== -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Leonardo AI">
 <meta property="og:title" content="Leonardo AI | AI 경영컨설팅 &amp; 실무 교육">
 <meta property="og:description" content="지식 온톨로지와 AI 에이전트를 결합한 차세대 경영 솔루션. 15분 무료 진단으로 시작하세요.">
-<meta property="og:url" content="https://leonardoai.co.kr/">
+<meta property="og:url" content="https://leoai2026.netlify.app/">
 <meta property="og:locale" content="ko_KR">
 <!-- ===== Twitter Card ===== -->
 <meta name="twitter:card" content="summary_large_image">
@@ -32,7 +32,7 @@
   "@type": "ProfessionalService",
   "name": "Leonardo AI",
   "description": "지식 온톨로지와 AI 에이전트를 결합한 차세대 경영 솔루션. AI 경영컨설팅, 실무 교육, 기업 마케팅 자동화를 제공합니다.",
-  "url": "https://leonardoai.co.kr/",
+  "url": "https://leoai2026.netlify.app/",
   "email": "leo2026.con@gmail.com",
   "areaServed": "KR",
   "serviceType": ["AI 경영컨설팅", "AI 실무 교육", "기업 마케팅 자동화", "에이전틱 AI 도입"],
@@ -45,6 +45,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;900&family=Noto+Serif+KR:wght@400;600;700;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 /* ============================================================
    DESIGN TOKENS
@@ -584,6 +585,33 @@ p, .section-desc,
   50% { transform: scaleY(1); transform-origin: top; }
   50.01% { transform: scaleY(1); transform-origin: bottom; }
   100% { transform: scaleY(0); transform-origin: bottom; }
+}
+/* ---- Hero contact info strip ---- */
+.hero-contact-info {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: 30px;
+}
+.hero-contact-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 17px;
+  color: rgba(255,255,255,.75);
+  font-weight: 600;
+  text-decoration: none;
+  letter-spacing: .015em;
+  transition: color .2s;
+  word-break: keep-all;
+}
+.hero-contact-item span { font-size: 18px; line-height: 1; }
+.hero-contact-item:hover { color: rgba(255,255,255,.95); }
+.hero-contact-sep {
+  width: 1px; height: 14px;
+  background: rgba(255,255,255,.28);
+  flex-shrink: 0;
 }
 /* ============================================================
    TRUST BAR
@@ -1687,8 +1715,8 @@ p, .section-desc,
   .hero-layout {
     grid-template-columns: 1fr;
     gap: 28px;
-    /* 콘솔↔스크롤 격리벽: 모바일에선 56px로 콤팩트 — SCROLL이 자연스럽게 위로 안착하면서 콘솔과 절대 겹치지 않는 안전 마진 */
-    padding-bottom: 56px;
+    /* 콘솔↔스크롤 격리벽: 모바일에선 88px — 연락처 줄 추가로 콘솔·SCROLL 간 안전 마진 확보 */
+    padding-bottom: 88px;
   }
   .hero-badge { margin-bottom: 22px; }
   .hero-text-col { grid-column: 1 / -1; order: 1; text-align: center; align-items: center; }
@@ -1714,6 +1742,51 @@ p, .section-desc,
     gap: 8px;
   }
   .hero-scroll-line { height: 38px; } /* 모바일: 라인 길이 압축으로 시각적 콤팩트 + 콘솔 침범 추가 방지 */
+  .hero-contact-info { justify-content: center; gap: 8px; width: 100%; margin-top: 32px; align-items: center; flex-direction: column; }
+  .hero-contact-sep { display: none; }
+  .hero-contact-item { font-size: 15px; }
+  .hero-contact-item span { font-size: 16px; }
+  /* ── [Req 1] word-break 보강: cp-block / road 계열 명시 적용 ── */
+  .cp-block-text, .cp-module-text, .cp-road-title, .cp-road-desc,
+  .cp-funnel-bar-label, .cp-funnel-title, .cp-desc, .agentic-step-label {
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+  /* ── [Fix A] 카드 패딩 축소: 모바일 좌우 여백 최소화로 콘텐츠 공간 확보 ── */
+  .comm-item {
+    padding: 14px 16px;
+  }
+  /* ── [Fix B] 헤더: 절대위치 해제 → overflow 봉쇄로 chevron 카드 내부 고정 ── */
+  .comm-item-header {
+    position: static;         /* relative 해제: 절대위치 기준 불필요 */
+    padding-right: 0;         /* 절대위치용 공간 제거 */
+    gap: 5px;
+    overflow: hidden;         /* 헤더 콘텐츠가 카드 밖으로 흘러나오는 것 차단 */
+  }
+  /* ── [Fix C] 날짜 메타 숨김: 모바일 가로 공간 확보 ── */
+  .comm-item-meta {
+    display: none;
+  }
+  /* ── [Fix D] 제목: flex 수축 허용 + ellipsis 3요소로 한 줄 표시 보장 ── */
+  .comm-item-title {
+    flex: 1 1 0;              /* grow:1 shrink:1 basis:0 — 남은 공간 전체 차지 */
+    min-width: 0;             /* flex 자식 ellipsis의 필수 조건 */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 13px;
+    line-height: 1.4;
+  }
+  /* ── [Fix E] Chevron: 정상 흐름 복귀 — 카드 경계 밖으로 절대 밀려나지 않음 ── */
+  .comm-item-chevron {
+    position: static;         /* 절대위치 완전 해제 */
+    flex-shrink: 0;
+    margin-left: auto;        /* 글로벌값 명시 복원: 헤더 우측 끝에 자연스럽게 배치 */
+    transform: none;
+  }
+  .comm-item.open .comm-item-chevron {
+    transform: rotate(180deg); /* translateY 없이 순수 회전만 적용 */
+  }
 }
 /* Private post gate — shown when non-admin tries to open private post */
 .comm-private-gate { padding: 28px 16px; text-align: center; }
@@ -1941,6 +2014,15 @@ footer {
         <div class="hero-actions reveal reveal-delay-3">
           <a href="#contact" class="btn btn-primary">15분 무료 진단 시작하기 →</a>
           <a href="#about" class="btn btn-ghost">더 알아보기</a>
+        </div>
+        <div class="hero-contact-info reveal reveal-delay-4">
+          <a href="mailto:leo2026.con@gmail.com" class="hero-contact-item">
+            <span>✉</span>leo2026.con@gmail.com
+          </a>
+          <span class="hero-contact-sep"></span>
+          <a href="tel:010-2104-0798" class="hero-contact-item">
+            <span>📞</span>010-2104-0798
+          </a>
         </div>
       </div><!-- /hero-text-col -->
       <!-- ── RIGHT: 3-Tab 인텔리전스 비즈니스 콘솔 (col-span-6, 외부 이미지 zero) ── -->
@@ -2237,7 +2319,7 @@ footer {
         <div class="cycle-step-num">01</div>
         <div class="cycle-step-icon">📚</div>
         <div class="cycle-step-tag">EDUCATE</div>
-        <div class="cycle-step-title">지식 전수 및 교육</div>
+        <div class="cycle-step-title">AI 네이티브 전환 교육</div>
         <div class="cycle-step-desc">
           조직 내 AI 도입을 위한 기반을 다집니다. 임원부터 실무자까지 맞춤형 커리큘럼으로 AI 리터러시를 높입니다.
         </div>
@@ -2531,7 +2613,7 @@ footer {
   <div class="container">
     <div class="community-header">
       <div class="section-label reveal">Community</div>
-      <h2 class="section-title reveal reveal-delay-1">공지사항 &amp; <em>Q&amp;A 게시판</em></h2>
+      <h2 class="section-title reveal reveal-delay-1">공지사항, Q&amp;A &amp; <em>인사이트 보고서</em></h2>
       <p class="section-desc reveal reveal-delay-2" style="margin: 16px auto 0; text-align:center;">
         Leonardo AI의 최신 소식과 자주 묻는 질문을 확인하세요.
       </p>
@@ -2539,6 +2621,7 @@ footer {
     <div class="community-tabs reveal reveal-delay-1" id="commTabs">
       <button class="comm-tab active" data-tab="notice" onclick="switchTab('notice')">📢 공지사항</button>
       <button class="comm-tab" data-tab="qa" onclick="switchTab('qa')">💬 Q&amp;A 게시판</button>
+      <button class="comm-tab" data-tab="insight" onclick="switchTab('insight')">📊 인사이트 보고서</button>
     </div>
     <!-- 공지사항 -->
     <div class="comm-panel active" id="panel-notice">
@@ -2564,6 +2647,18 @@ footer {
         <button class="comm-viewall-btn" onclick="openModal('qa')">전체보기 →</button>
       </div>
     </div>
+    <!-- 인사이트 보고서 -->
+    <div class="comm-panel" id="panel-insight">
+      <div class="comm-panel-topbar">
+        <button class="comm-write-action-btn" onclick="checkInsightAdminAndOpen()">✏️ 보고서 작성</button>
+      </div>
+      <div class="comm-list" id="insight-list">
+        <!-- populated by loadSavedData() on DOMContentLoaded -->
+      </div>
+      <div class="comm-viewall-wrap">
+        <button class="comm-viewall-btn" onclick="openModal('insight')">전체보기 →</button>
+      </div>
+    </div>
   </div>
 </section>
 <!-- ====================================================
@@ -2587,6 +2682,17 @@ footer {
       <button class="comm-modal-close" onclick="closeModal('qa')">✕</button>
     </div>
     <div class="comm-modal-body" id="modal-qa-body">
+      <!-- populated by loadSavedData() on DOMContentLoaded -->
+    </div>
+  </div>
+</div>
+<div class="comm-modal-overlay" id="modal-insight" onclick="closeModalOutside(event,'insight')">
+  <div class="comm-modal">
+    <div class="comm-modal-head">
+      <span class="comm-modal-title">📊 인사이트 보고서 전체보기</span>
+      <button class="comm-modal-close" onclick="closeModal('insight')">✕</button>
+    </div>
+    <div class="comm-modal-body" id="modal-insight-body">
       <!-- populated by loadSavedData() on DOMContentLoaded -->
     </div>
   </div>
@@ -2776,6 +2882,37 @@ footer {
   </div>
 </div>
 <!-- ====================================================
+     INSIGHT WRITE MODAL
+     ==================================================== -->
+<div class="comm-write-overlay" id="insight-write-modal" onclick="closeInsightWriteOutside(event)">
+  <div class="comm-write-box">
+    <div class="comm-write-head">
+      <span class="comm-write-head-title">✏️ 인사이트 보고서 작성</span>
+      <button class="comm-modal-close" onclick="closeInsightWriteModal()">✕</button>
+    </div>
+    <div class="comm-write-body">
+      <div class="comm-write-field">
+        <label for="insight-write-title">제목</label>
+        <input type="text" id="insight-write-title" class="comm-write-input" placeholder="보고서 제목을 입력하세요" />
+      </div>
+      <div class="comm-write-field">
+        <label for="insight-write-content">내용</label>
+        <textarea id="insight-write-content" class="comm-write-textarea" placeholder="보고서 내용을 입력하세요"></textarea>
+      </div>
+      <div class="comm-write-field">
+        <label class="comm-write-file-label">첨부파일 (선택)</label>
+        <div class="comm-write-file-input-wrap">
+          <label class="comm-write-file-btn" for="insight-write-file">📎 파일 선택</label>
+          <input type="file" id="insight-write-file" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.zip" style="display:none" multiple onchange="handleInsightFileSelect(this)" />
+          <span class="comm-write-file-hint" id="insight-write-file-hint" style="font-size:12px;color:var(--grey-400);">PDF, Word, Excel, PPT 등 보고서 파일</span>
+        </div>
+        <div class="comm-write-file-list" id="insight-write-file-list"></div>
+      </div>
+      <button class="comm-write-submit" onclick="submitInsight()">보고서 등록하기</button>
+    </div>
+  </div>
+</div>
+<!-- ====================================================
      CONTACT
      ==================================================== -->
 <section id="contact" aria-label="문의하기">
@@ -2849,7 +2986,7 @@ footer {
               <div class="info-icon">🌐</div>
               <div>
                 <div class="info-label">Web</div>
-                <div class="info-value">leonardo-ai.kr</div>
+                <div class="info-value"><a href="https://leoai2026.netlify.app" target="_blank" rel="noopener noreferrer" style="color:rgba(255,255,255,.85);text-decoration:underline;font-weight:500;">leoai2026.netlify.app</a></div>
               </div>
             </div>
           </div>
@@ -2874,7 +3011,8 @@ footer {
       </div>
       <div class="footer-meta">
         © 2026 Leonardo AI Inc. All rights reserved.<br>
-        Document v1.0 · LA-2026-001
+        Document v1.0 · LA-2026-001<br>
+        <a href="https://leoai2026.netlify.app" target="_blank" rel="noopener noreferrer" style="color:rgba(255,255,255,0.45);text-decoration:none;">leoai2026.netlify.app</a>
       </div>
     </div>
   </div>
@@ -2957,16 +3095,18 @@ document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') {
     custPromptCancel();
     closePwModal();
-    ['notice','qa'].forEach(function(t) { closeModal(t); });
+    ['notice','qa','insight'].forEach(function(t) { closeModal(t); });
     closeWriteModal();
     closeQaWriteModal();
     closeAnswerModal();
+    closeInsightWriteModal();
   }
 });
 /* ---- Edit-mode state (null = creating new; non-null = editing existing) ---- */
 var _editNoticeId  = null;
 var _editQaId      = null;
 var _editAnswerId  = null;
+var _editInsightId = null;
 /* ---- Custom prompt modal (replaces window.prompt() on mobile) ---- */
 var _custPromptCallback = null;
 var _custPromptOwnPw = '';
@@ -3154,6 +3294,154 @@ function closeWriteModal() {
 function closeWriteOutside(e) {
   if (e.target === document.getElementById('write-modal')) closeWriteModal();
 }
+/* ---- Insight write modal ---- */
+var _insightFiles = []; /* Array of File objects */
+function _renderInsightFileList() {
+  var listEl = document.getElementById('insight-write-file-list');
+  if (!listEl) return;
+  listEl.innerHTML = '';
+  _insightFiles.forEach(function(f, idx) {
+    var item = document.createElement('div');
+    item.className = 'comm-write-file-item';
+    item.innerHTML = '📄 ' + escHtml(f.name) +
+      '<button class="comm-write-file-remove" onclick="removeInsightFile(event,' + idx + ')" title="삭제">✕</button>';
+    listEl.appendChild(item);
+  });
+}
+function handleInsightFileSelect(input) {
+  var files = Array.from(input.files || []);
+  if (!files.length) return;
+  _insightFiles = _insightFiles.concat(files);
+  _renderInsightFileList();
+  input.value = '';
+}
+function removeInsightFile(e, idx) {
+  e.stopPropagation();
+  _insightFiles.splice(idx, 1);
+  _renderInsightFileList();
+}
+function checkInsightAdminAndOpen() {
+  requestAdmin(openInsightWriteModal, '보고서 작성은 관리자 전용 기능입니다. 관리자 비밀번호를 입력해 주세요.');
+}
+function openInsightWriteModal() {
+  document.getElementById('insight-write-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  document.getElementById('insight-write-title').value = '';
+  document.getElementById('insight-write-content').value = '';
+  document.getElementById('insight-write-file-list').innerHTML = '';
+  _insightFiles = [];
+  setTimeout(function() { document.getElementById('insight-write-title').focus(); }, 80);
+}
+function closeInsightWriteModal() {
+  document.getElementById('insight-write-modal').classList.remove('open');
+  document.body.style.overflow = '';
+  document.getElementById('insight-write-title').value = '';
+  document.getElementById('insight-write-content').value = '';
+  document.getElementById('insight-write-file-list').innerHTML = '';
+  _insightFiles = [];
+  _editInsightId = null;
+  var headTitle = document.querySelector('#insight-write-modal .comm-write-head-title');
+  if (headTitle) headTitle.textContent = '✏️ 인사이트 보고서 작성';
+  var submitBtn = document.querySelector('#insight-write-modal .comm-write-submit');
+  if (submitBtn) submitBtn.textContent = '보고서 등록하기';
+}
+function closeInsightWriteOutside(e) {
+  if (e.target === document.getElementById('insight-write-modal')) closeInsightWriteModal();
+}
+function editInsight(e, btn) {
+  e.stopPropagation();
+  var item = btn.closest('.comm-item');
+  var itemId = item.getAttribute('data-item-id');
+  var entry = null;
+  for (var i = 0; i < _insightsData.length; i++) {
+    if (_insightsData[i].id === itemId) { entry = _insightsData[i]; break; }
+  }
+  if (!entry) { alert('데이터를 찾을 수 없습니다.'); return; }
+  requestAdmin(function() {
+    _editInsightId = itemId;
+    _insightFiles = [];
+    document.getElementById('insight-write-title').value = entry.title;
+    document.getElementById('insight-write-content').value = entry.content;
+    document.getElementById('insight-write-file-list').innerHTML = '';
+    var headTitle = document.querySelector('#insight-write-modal .comm-write-head-title');
+    if (headTitle) headTitle.textContent = '✏️ 인사이트 보고서 수정';
+    var submitBtn = document.querySelector('#insight-write-modal .comm-write-submit');
+    if (submitBtn) submitBtn.textContent = '수정 완료';
+    document.getElementById('insight-write-modal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+    setTimeout(function() { document.getElementById('insight-write-title').focus(); }, 80);
+  }, '보고서 수정은 관리자 전용 기능입니다. 관리자 비밀번호를 입력해 주세요.');
+}
+async function submitInsight() {
+  var title = document.getElementById('insight-write-title').value.trim();
+  var content = document.getElementById('insight-write-content').value.trim();
+  if (!title) { alert('제목을 입력해 주세요.'); return; }
+  if (!content) { alert('내용을 입력해 주세요.'); return; }
+  /* ---- 공통: 선택된 파일 전체 병렬 업로드 ---- */
+  var uploadedUrls = [];
+  if (_insightFiles.length > 0) {
+    try {
+      var ts = Date.now();
+      uploadedUrls = await Promise.all(_insightFiles.map(async function(file, i) {
+        var safeExt = (file.name.match(/\.[a-zA-Z0-9]+$/) || [''])[0];
+        var filePath = ts + '_' + i + safeExt;
+        var upRes = await _supabase.storage.from('reports').upload(filePath, file);
+        if (upRes.error) throw new Error(file.name + ': ' + upRes.error.message);
+        return _supabase.storage.from('reports').getPublicUrl(filePath).data.publicUrl;
+      }));
+    } catch(upErr) {
+      alert('파일 업로드 실패: ' + upErr.message);
+      return;
+    }
+  }
+  /* ---- EDIT MODE: update existing insight ---- */
+  if (_editInsightId) {
+    var editEntry = null;
+    for (var ei = 0; ei < _insightsData.length; ei++) {
+      if (_insightsData[ei].id === _editInsightId) { editEntry = _insightsData[ei]; break; }
+    }
+    if (editEntry) {
+      editEntry.title = title;
+      editEntry.content = content;
+      if (uploadedUrls.length > 0) {
+        editEntry.fileUrl = uploadedUrls.join(',');
+      }
+      DataService.updateInsight(_editInsightId, { title: title, content: content, fileUrl: editEntry.fileUrl || null });
+      var editId = _editInsightId;
+      ['insight-list', 'modal-insight-body'].forEach(function(listId) {
+        var list = document.getElementById(listId);
+        if (!list) return;
+        var oldEl = list.querySelector('[data-item-id="' + editId + '"]');
+        if (oldEl) list.replaceChild(makeInsightItemEl(editEntry), oldEl);
+      });
+    }
+    closeInsightWriteModal();
+    return;
+  }
+  /* ---- CREATE MODE: add new insight ---- */
+  var now = new Date();
+  var dateStr = now.getFullYear() + '.' + String(now.getMonth()+1).padStart(2,'0') + '.' + String(now.getDate()).padStart(2,'0');
+  var fileUrl = uploadedUrls.length > 0 ? uploadedUrls.join(',') : null;
+  var data = {
+    id: 'ins_' + Date.now(),
+    title: title,
+    content: content,
+    dateStr: dateStr,
+    badge: 'new',
+    isSeed: false,
+    fileUrl: fileUrl
+  };
+  var _addSuccess = await DataService.addInsight(data);
+  if (!_addSuccess) return;
+  var newItem = makeInsightItemEl(data);
+  var mainList = document.getElementById('insight-list');
+  mainList.insertBefore(newItem, mainList.firstChild);
+  var modalBody = document.getElementById('modal-insight-body');
+  if (modalBody) {
+    modalBody.insertBefore(makeInsightItemEl(data), modalBody.firstChild);
+  }
+  closeInsightWriteModal();
+}
 function editNotice(e, btn) {
   e.stopPropagation();
   var item = btn.closest('.comm-item');
@@ -3178,7 +3466,7 @@ function editNotice(e, btn) {
     setTimeout(function() { document.getElementById('write-title').focus(); }, 80);
   }, '공지사항 수정은 관리자 전용 기능입니다. 관리자 비밀번호를 입력해 주세요.');
 }
-function submitNotice() {
+async function submitNotice() {
   var title = document.getElementById('write-title').value.trim();
   var content = document.getElementById('write-content').value.trim();
   if (!title) { alert('제목을 입력해 주세요.'); return; }
@@ -3196,7 +3484,7 @@ function submitNotice() {
       if (activeFilesEdit.length > 0) {
         editEntry.files = activeFilesEdit.map(function(f) { return { name: f.name, dataUrl: f.dataUrl || null }; });
       }
-      DataService.syncNotices(); /* persist in-place mutation */
+      DataService.updateNotice(_editNoticeId, {title: title, content: content, files: editEntry.files || []}); /* persist to Supabase */
       var editId = _editNoticeId;
       ['notice-list', 'modal-notice-body'].forEach(function(listId) {
         var list = document.getElementById(listId);
@@ -3222,8 +3510,9 @@ function submitNotice() {
     dateStr: dateStr,
     files: filesData
   };
-  DataService.addNotice(data);
-  /* Render using the shared builder */
+  var _addNoticeSuccess = await DataService.addNotice(data);
+  if (!_addNoticeSuccess) return;
+  /* Render using the shared builder — only after confirmed server save */
   var newItem = makeNoticeItemEl(data);
   var mainList = document.getElementById('notice-list');
   mainList.insertBefore(newItem, mainList.firstChild);
@@ -3298,6 +3587,21 @@ function updateNoticeBadges() {
     else { badge.className = 'comm-badge notice'; badge.textContent = '공지'; }
   });
 }
+/* ---- Dynamic badge logic for insights (same rule: ≤30 days = NEW, else 공지) ---- */
+function updateInsightBadges() {
+  var now = new Date();
+  document.querySelectorAll('#insight-list [data-date], #modal-insight-body [data-date]').forEach(function(item) {
+    var dateStr = item.getAttribute('data-date');
+    var badge = item.querySelector('.comm-badge');
+    if (!dateStr || !badge) return;
+    var parts = dateStr.split('.');
+    if (parts.length !== 3) return;
+    var postDate = new Date(parseInt(parts[0]), parseInt(parts[1])-1, parseInt(parts[2]));
+    var daysDiff = (now - postDate) / (1000*60*60*24);
+    if (daysDiff <= 30) { badge.className = 'comm-badge new'; badge.textContent = 'NEW'; }
+    else { badge.className = 'comm-badge notice'; badge.textContent = '공지'; }
+  });
+}
 /* ---- Q&A write modal ---- */
 function setPrivacy(mode) {
   document.getElementById('qa-opt-public').classList.toggle('selected', mode === 'public');
@@ -3354,7 +3658,7 @@ function editQaQuestion(e, btn) {
     setTimeout(function() { document.getElementById('qa-write-title').focus(); }, 80);
   });
 }
-function submitQuestion() {
+async function submitQuestion() {
   var title     = document.getElementById('qa-write-title').value.trim();
   var content   = document.getElementById('qa-write-content').value.trim();
   var pw        = document.getElementById('qa-write-pw').value.trim();
@@ -3371,7 +3675,7 @@ function submitQuestion() {
       editEntry.content = content;
       editEntry.isPrivate = isPrivate;
       if (pw && pw.length >= 4) editEntry.pw = pw;
-      DataService.syncQa(); /* persist in-place mutation */
+      DataService.updateQuestion(_editQaId, {title: title, content: content, isPrivate: isPrivate, pw: editEntry.pw}); /* persist to Supabase */
       var editId = _editQaId;
       ['qa-list', 'modal-qa-body'].forEach(function(listId) {
         var list = document.getElementById(listId);
@@ -3398,8 +3702,9 @@ function submitQuestion() {
     answered: false,
     answerContent: null
   };
-  DataService.addQuestion(data);
-  /* Render using the shared builder — sync both main list and full-view modal */
+  var _addQaSuccess = await DataService.addQuestion(data);
+  if (!_addQaSuccess) return;
+  /* Render using the shared builder — only after confirmed server save */
   var qaList = document.getElementById('qa-list');
   if (qaList) qaList.insertBefore(makeQaItemEl(data), qaList.firstChild);
   var modalQa = document.getElementById('modal-qa-body');
@@ -3432,6 +3737,8 @@ function openAnswerModal(prefillContent) {
 function closeAnswerModal() {
   document.getElementById('answer-modal').classList.remove('open');
   document.body.style.overflow = '';
+  var answerTextarea = document.getElementById('answer-content');
+  if (answerTextarea) answerTextarea.value = '';
   _answerTarget = null;
   /* Reset edit-mode state and restore default modal labels */
   _editAnswerId = null;
@@ -3443,7 +3750,7 @@ function closeAnswerModal() {
 function closeAnswerModalOutside(e) {
   if (e.target === document.getElementById('answer-modal')) closeAnswerModal();
 }
-function submitAnswer() {
+async function submitAnswer() {
   var content = document.getElementById('answer-content').value.trim();
   if (!content) { alert('답변 내용을 입력해 주세요.'); return; }
   /* ---- EDIT MODE: update existing answer ---- */
@@ -3456,18 +3763,23 @@ function submitAnswer() {
     if (editEntry) {
       DataService.updateQuestion(editId, { answerContent: content });
     }
-    /* Update DOM in both lists */
+    /* Update DOM in both lists — preserve private lock if applicable */
+    var editAnsHtml =
+      '<p class="comm-answer-label">💬 Leonardo AI 답변</p>' +
+      '<p>' + escHtml(content) + '</p>' +
+      '<button class="comm-answer-edit-btn" onclick="editAnswer(event,this)" title="답변 수정">✏️ 답변 수정</button>';
+    var editQContent = (editEntry && editEntry.content) ? '<p>' + escHtml(editEntry.content) + '</p>' : '';
     ['qa-list', 'modal-qa-body'].forEach(function(listId) {
       var list = document.getElementById(listId);
       if (!list) return;
       var target = list.querySelector('[data-item-id="' + editId + '"]');
       if (!target) return;
-      var bodyInner = target.querySelector('.comm-item-body-inner');
-      if (bodyInner) {
-        bodyInner.innerHTML =
-          '<p class="comm-answer-label">💬 Leonardo AI 답변</p>' +
-          '<p>' + escHtml(content) + '</p>' +
-          '<button class="comm-answer-edit-btn" onclick="editAnswer(event,this)" title="답변 수정">✏️ 답변 수정</button>';
+      if (target.getAttribute('data-private') === 'true') {
+        /* Private post: update stored body only, keep lock gate visible */
+        target.setAttribute('data-private-body', editQContent + editAnsHtml);
+      } else {
+        var bodyInner = target.querySelector('.comm-item-body-inner');
+        if (bodyInner) { bodyInner.innerHTML = editAnsHtml; }
       }
     });
     closeAnswerModal();
@@ -3475,38 +3787,63 @@ function submitAnswer() {
   }
   /* ---- CREATE MODE: post new answer ---- */
   if (!_answerTarget) return;
-  /* Update badge */
+  var createItemId = _answerTarget.getAttribute('data-item-id');
+  var createIsPrivate = _answerTarget.getAttribute('data-private') === 'true';
+  var createAnsHtml =
+    '<p class="comm-answer-label">💬 Leonardo AI 답변</p>' +
+    '<p>' + escHtml(content) + '</p>' +
+    '<button class="comm-answer-edit-btn" onclick="editAnswer(event,this)" title="답변 수정">✏️ 답변 수정</button>';
+  /* Find question content (used to rebuild private-body with answer appended) */
+  var createEntry = null;
+  if (createIsPrivate && createItemId) {
+    for (var ci = 0; ci < _qaData.length; ci++) {
+      if (_qaData[ci].id === createItemId) { createEntry = _qaData[ci]; break; }
+    }
+  }
+  var createQHtml = (createEntry && createEntry.content) ? '<p>' + escHtml(createEntry.content) + '</p>' : '';
+  /* Persist answer to data store via DataService FIRST (only affects dynamic items with an id) */
+  if (createItemId) {
+    var _addAnswerSuccess = await DataService.addAnswer(createItemId, content);
+    if (!_addAnswerSuccess) return;
+  }
+  /* Badge: private stays locked; public gets 답변완료 — only after confirmed server save */
   var badge = _answerTarget.querySelector('.comm-badge');
-  if (badge) { badge.className = 'comm-badge answered'; badge.textContent = '답변완료'; }
+  if (!createIsPrivate && badge) { badge.className = 'comm-badge answered'; badge.textContent = '답변완료'; }
   /* Mark as answered */
   _answerTarget.setAttribute('data-answered', 'true');
-  /* Replace entire body with answer + edit button */
-  var bodyInner = _answerTarget.querySelector('.comm-item-body-inner');
-  if (bodyInner) {
-    bodyInner.innerHTML =
-      '<p class="comm-answer-label">💬 Leonardo AI 답변</p>' +
-      '<p>' + escHtml(content) + '</p>' +
-      '<button class="comm-answer-edit-btn" onclick="editAnswer(event,this)" title="답변 수정">✏️ 답변 수정</button>';
+  /* Private: store answer in data-private-body, keep lock gate; Public: update visible DOM */
+  if (createIsPrivate) {
+    _answerTarget.setAttribute('data-private-body', createQHtml + createAnsHtml);
+    /* 관리자가 이미 잠금 해제한 경우(lock gate 없음) → bodyInner 직접 갱신 */
+    var bodyInner = _answerTarget.querySelector('.comm-item-body-inner');
+    if (bodyInner && !bodyInner.querySelector('.comm-private-gate')) {
+      bodyInner.innerHTML = createQHtml + createAnsHtml;
+      if (badge) { badge.className = 'comm-badge answered'; badge.textContent = '답변완료'; }
+    }
+  } else {
+    var bodyInner = _answerTarget.querySelector('.comm-item-body-inner');
+    if (bodyInner) { bodyInner.innerHTML = createAnsHtml; }
   }
-  /* Persist answer to data store via DataService (only affects dynamic items with an id) */
-  var itemId = _answerTarget.getAttribute('data-item-id');
-  if (itemId) {
-    DataService.addAnswer(itemId, content);
-  }
-  /* Also mirror to modal-qa-body if it exists */
+  /* Mirror to modal-qa-body if it exists */
   var mirrorQa = document.getElementById('modal-qa-body');
-  if (mirrorQa && itemId) {
-    var mirrorTarget = mirrorQa.querySelector('[data-item-id="' + itemId + '"]');
+  if (mirrorQa && createItemId) {
+    var mirrorTarget = mirrorQa.querySelector('[data-item-id="' + createItemId + '"]');
     if (mirrorTarget) {
+      var mIsPrivate = mirrorTarget.getAttribute('data-private') === 'true';
       var mBadge = mirrorTarget.querySelector('.comm-badge');
-      if (mBadge) { mBadge.className = 'comm-badge answered'; mBadge.textContent = '답변완료'; }
+      if (!mIsPrivate && mBadge) { mBadge.className = 'comm-badge answered'; mBadge.textContent = '답변완료'; }
       mirrorTarget.setAttribute('data-answered', 'true');
-      var mBodyInner = mirrorTarget.querySelector('.comm-item-body-inner');
-      if (mBodyInner) {
-        mBodyInner.innerHTML =
-          '<p class="comm-answer-label">💬 Leonardo AI 답변</p>' +
-          '<p>' + escHtml(content) + '</p>' +
-          '<button class="comm-answer-edit-btn" onclick="editAnswer(event,this)" title="답변 수정">✏️ 답변 수정</button>';
+      if (mIsPrivate) {
+        mirrorTarget.setAttribute('data-private-body', createQHtml + createAnsHtml);
+        /* 미러 요소도 동일하게 잠금 해제 상태 확인 후 직접 갱신 */
+        var mBodyInner = mirrorTarget.querySelector('.comm-item-body-inner');
+        if (mBodyInner && !mBodyInner.querySelector('.comm-private-gate')) {
+          mBodyInner.innerHTML = createQHtml + createAnsHtml;
+          if (mBadge) { mBadge.className = 'comm-badge answered'; mBadge.textContent = '답변완료'; }
+        }
+      } else {
+        var mBodyInner = mirrorTarget.querySelector('.comm-item-body-inner');
+        if (mBodyInner) { mBodyInner.innerHTML = createAnsHtml; }
       }
     }
   }
@@ -3529,15 +3866,15 @@ function editAnswer(e, btn) {
   }, '답변 수정은 관리자 전용 기능입니다. 관리자 비밀번호를 입력해 주세요.');
 }
 function escHtml(str) {
-  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  if (str === null || str === undefined) return '';
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 /* ============================================================
-   DATA STORE — localStorage persistence
-   Key names use a unique prefix to avoid cross-app collisions.
-   Variables are lazily initialized (useState-equivalent): data
-   is read from localStorage at the moment of declaration so it
-   is available before any rendering code runs.
+   SUPABASE CONFIG & INITIALIZATION
    ============================================================ */
+var SUPABASE_URL      = 'https://iswvgwuwhmhnitnmrmwx.supabase.co';
+var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imlzd3Znd3V3aG1obml0bm1ybXd4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkxODMyMzEsImV4cCI6MjA5NDc1OTIzMX0.Y9zWAuk0F3YF8nQ1mBz15kXaF6nUgwqR-KiaveBLTuc';
+var _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 /* ============================================================
    SEED DATA — default notices and Q&A items baked into the app.
    Fixed IDs (seed-n-*, seed-q-*) are used as presence markers so
@@ -3613,113 +3950,233 @@ var _SEED_QA = [
     answerContent: '소규모 기업일수록 AI 도입 효과를 더 빠르고 크게 체감하실 수 있습니다. 직원 수가 적을수록 에이전틱 AI가 대신 처리하는 반복 업무의 비중이 전체 업무량에서 차지하는 비율이 더 높기 때문입니다. Leonardo AI는 도입 첫 달부터 업무 자동화 효과를 확인할 수 있도록 맞춤 설계를 지원합니다. 실제로 직원 5인 이하 기업에서 주 평균 18시간의 업무 절감 사례가 보고된 바 있습니다.'
   }
 ];
-var _STORE_NOTICES = 'leonardo_storage_v1_notices';
-var _STORE_QA      = 'leonardo_storage_v1_qa';
-/* Lazy initialization with seed-merge.
-   Algorithm:
-   1. Read localStorage (or fall back to legacy key).
-   2. If stored array already contains any seed- IDs → seeds were previously merged, use as-is.
-   3. If stored array has NO seed- IDs (old data or fresh) → prepend all seeds.
-   4. On any error → use seeds only.
-   This guarantees default content is ALWAYS present regardless of localStorage state. */
-var _noticesData = (function() {
-  try {
-    var stored = localStorage.getItem('leonardo_storage_v1_notices');
-    var arr = stored ? JSON.parse(stored) : null;
-    if (!arr) {
-      var old = localStorage.getItem('leo_notices_v1');
-      arr = old ? JSON.parse(old) : [];
-    }
-    /* Check for seed presence by ID prefix */
-    var hasSeed = arr.some(function(d) { return d.id && d.id.indexOf('seed-') === 0; });
-    if (hasSeed) return arr; /* seeds already merged */
-    /* Prepend seeds to any existing user-added data */
-    return _SEED_NOTICES.concat(arr);
-  } catch(e) { return _SEED_NOTICES.slice(); }
-})();
-var _qaData = (function() {
-  try {
-    var stored = localStorage.getItem('leonardo_storage_v1_qa');
-    var arr = stored ? JSON.parse(stored) : null;
-    if (!arr) {
-      var old = localStorage.getItem('leo_qa_v1');
-      arr = old ? JSON.parse(old) : [];
-    }
-    var hasSeed = arr.some(function(d) { return d.id && d.id.indexOf('seed-') === 0; });
-    if (hasSeed) return arr;
-    return _SEED_QA.concat(arr);
-  } catch(e) { return _SEED_QA.slice(); }
-})();
-/* Initialization guard — prevents saveNoticesData/saveQaData from
-   overwriting localStorage with empty arrays during the initialization
-   phase (before loadSavedData() has run and confirmed what's real). */
-var _dataInitialized = false;
-/* Sync helpers — called on every mutation (equivalent to useEffect on state change).
-   The guard ensures we never clobber real data with an empty array on startup. */
-function saveNoticesData() {
-  if (!_dataInitialized && _noticesData.length === 0) return;
-  try { localStorage.setItem(_STORE_NOTICES, JSON.stringify(_noticesData)); } catch(ex) {}
+var _SEED_INSIGHTS = [
+  {
+    id: 'seed-ins-001', dateStr: '2026.03.20', badge: 'notice', isSeed: true, fileUrl: null,
+    title: '2026년 국내 중소기업 AI 도입 현황 분석 보고서',
+    content: '국내 중소기업 523개사를 대상으로 진행한 AI 도입 실태 조사 결과를 담은 보고서입니다. 도입률, 주요 도입 분야, 성과 지표, 도입 장벽 등을 분석했습니다. 소상공인 업종에서 에이전틱 AI를 통해 평균 주 18시간의 업무 절감 효과가 나타난 점이 두드러진 발견입니다.'
+  },
+  {
+    id: 'seed-ins-002', dateStr: '2026.04.05', badge: 'notice', isSeed: true, fileUrl: null,
+    title: 'Agentic AI 도입 ROI 측정 방법론 및 사례 연구',
+    content: 'Agentic AI 솔루션 도입 이후 ROI를 정량적으로 측정하는 방법론을 정립하고 실제 도입 기업 4개사의 사례를 분석했습니다. 업무 자동화율, 오류 감소율, 응답 시간 단축율 등 KPI 기반 평가 프레임워크를 제시합니다.'
+  },
+  {
+    id: 'seed-ins-003', dateStr: '2026.04.22', badge: 'new', isSeed: true, fileUrl: null,
+    title: 'Knowledge Ontology 설계 가이드 — 업종별 적용 전략',
+    content: '제조, 유통, 서비스업 세 개 업종에 특화된 Knowledge Ontology 설계 전략을 비교 분석합니다. 각 업종별 핵심 비즈니스 개념 체계, 데이터 연결 구조, AI 응용 시나리오를 체계적으로 정리한 실무 가이드입니다.'
+  },
+  {
+    id: 'seed-ins-004', dateStr: '2026.05.08', badge: 'new', isSeed: true, fileUrl: null,
+    title: '2026년 상반기 글로벌 AI 에이전트 트렌드 리포트',
+    content: 'OpenAI, Anthropic, Google DeepMind 등 주요 AI 기업의 에이전트 기술 동향과 기업 도입 사례를 종합 분석했습니다. 멀티 에이전트 협업, 장기 메모리, 도구 사용 최적화 등 2026년 상반기 핵심 기술 트렌드를 다룹니다.'
+  }
+];
+/* ============================================================
+   IN-MEMORY STORE — populated from Supabase on loadSavedData()
+   ============================================================ */
+var _noticesData  = [];
+var _qaData       = [];
+var _insightsData = [];
+/* DB row (snake_case) → JS object (camelCase) mappers */
+function dbToNotice(row) {
+  return {
+    id:      (row.id      != null) ? row.id      : '',
+    title:   (row.title   != null) ? row.title   : '',
+    content: (row.content != null) ? row.content : '',
+    dateStr: (row.date_str!= null) ? row.date_str: '',
+    badge:   row.badge   || 'new',
+    isSeed:  !!row.is_seed,
+    files:   Array.isArray(row.files) ? row.files : []
+  };
 }
-function saveQaData() {
-  if (!_dataInitialized && _qaData.length === 0) return;
-  try { localStorage.setItem(_STORE_QA, JSON.stringify(_qaData)); } catch(ex) {}
+function dbToQa(row) {
+  return {
+    id:            (row.id            != null) ? row.id            : '',
+    title:         (row.title         != null) ? row.title         : '',
+    content:       (row.content       != null) ? row.content       : '',
+    dateStr:       (row.date_str      != null) ? row.date_str      : '',
+    pw:            (row.pw            != null) ? row.pw            : '',
+    isPrivate:     !!row.is_private,
+    isSeed:        !!row.is_seed,
+    answered:      !!row.answered,
+    answerContent: (row.answer_content!= null) ? row.answer_content: null
+  };
+}
+function dbToInsight(row) {
+  return {
+    id:      (row.id       != null) ? row.id       : '',
+    title:   (row.title    != null) ? row.title    : '',
+    content: (row.content  != null) ? row.content  : '',
+    dateStr: (row.date_str != null) ? row.date_str : '',
+    badge:   row.badge   || 'new',
+    isSeed:  !!row.is_seed,
+    fileUrl: (row.file_url != null) ? row.file_url : null
+  };
 }
 /* ============================================================
-   DATA SERVICE — CRUD module
+   DATA SERVICE — async Supabase CRUD
    All reads/writes to _noticesData and _qaData MUST go through
-   this object. Callers are decoupled from the storage layer, so
-   swapping to Supabase/Firebase only requires editing this block.
+   this object. In-memory arrays are updated optimistically first
+   so the UI responds immediately; Supabase calls run in the
+   background and log errors to the console if they fail.
    ============================================================ */
 var DataService = {
   /* ---- Notices ---- */
   getAllNotices: function() { return _noticesData.slice(); },
-  addNotice: function(data) {
+  addNotice: async function(data) {
+    var result = await _supabase.from('notices').insert({
+      id:       data.id,
+      title:    data.title,
+      content:  data.content,
+      date_str: data.dateStr,
+      badge:    data.badge || 'new',
+      is_seed:  !!data.isSeed,
+      files:    data.files || []
+    });
+    if (result.error) {
+      alert('서버 저장 실패: ' + result.error.message);
+      return false;
+    }
     _noticesData.push(data);
-    saveNoticesData();
+    return true;
   },
-  updateNotice: function(id, patch) {
+  updateNotice: async function(id, patch) {
     for (var i = 0; i < _noticesData.length; i++) {
       if (_noticesData[i].id === id) {
         var k;
         for (k in patch) { if (patch.hasOwnProperty(k)) _noticesData[i][k] = patch[k]; }
-        saveNoticesData();
-        return true;
+        break;
       }
     }
-    return false;
+    var dbPatch = {};
+    if ('title'   in patch) dbPatch.title   = patch.title;
+    if ('content' in patch) dbPatch.content = patch.content;
+    if ('badge'   in patch) dbPatch.badge   = patch.badge;
+    if ('files'   in patch) dbPatch.files   = patch.files;
+    try {
+      if (Object.keys(dbPatch).length > 0)
+        await _supabase.from('notices').update(dbPatch).eq('id', id);
+    } catch(e) { console.error('[Supabase] updateNotice error:', e); }
   },
-  deleteNotice: function(id) {
+  deleteNotice: async function(id) {
     _noticesData = _noticesData.filter(function(d) { return d.id !== id; });
-    saveNoticesData();
+    try { await _supabase.from('notices').delete().eq('id', id); }
+    catch(e) { console.error('[Supabase] deleteNotice error:', e); }
   },
-  /* Persist already-mutated _noticesData (used when caller mutates in place) */
-  syncNotices: function() { saveNoticesData(); },
+  /* no-op in Supabase mode — kept for call-site compatibility */
+  syncNotices: function() {},
   /* ---- Q&A ---- */
   getAllQuestions: function() { return _qaData.slice(); },
-  addQuestion: function(data) {
+  addQuestion: async function(data) {
+    var result = await _supabase.from('qnas').insert({
+      id:             data.id,
+      title:          data.title,
+      content:        data.content || '',
+      date_str:       data.dateStr,
+      pw:             data.pw || '',
+      is_private:     !!data.isPrivate,
+      is_seed:        !!data.isSeed,
+      answered:       !!data.answered,
+      answer_content: data.answerContent || null
+    });
+    if (result.error) {
+      alert('서버 저장 실패: ' + result.error.message);
+      return false;
+    }
     _qaData.push(data);
-    saveQaData();
+    return true;
   },
-  updateQuestion: function(id, patch) {
+  updateQuestion: async function(id, patch) {
     for (var i = 0; i < _qaData.length; i++) {
       if (_qaData[i].id === id) {
         var k;
         for (k in patch) { if (patch.hasOwnProperty(k)) _qaData[i][k] = patch[k]; }
-        saveQaData();
-        return true;
+        break;
       }
     }
-    return false;
+    var dbPatch = {};
+    if ('title'         in patch) dbPatch.title          = patch.title;
+    if ('content'       in patch) dbPatch.content        = patch.content;
+    if ('isPrivate'     in patch) dbPatch.is_private     = patch.isPrivate;
+    if ('pw'            in patch) dbPatch.pw             = patch.pw;
+    if ('answered'      in patch) dbPatch.answered       = patch.answered;
+    if ('answerContent' in patch) dbPatch.answer_content = patch.answerContent;
+    try {
+      if (Object.keys(dbPatch).length > 0)
+        await _supabase.from('qnas').update(dbPatch).eq('id', id);
+    } catch(e) { console.error('[Supabase] updateQuestion error:', e); }
   },
-  deleteQuestion: function(id) {
+  deleteQuestion: async function(id) {
     _qaData = _qaData.filter(function(d) { return d.id !== id; });
-    saveQaData();
+    try { await _supabase.from('qnas').delete().eq('id', id); }
+    catch(e) { console.error('[Supabase] deleteQuestion error:', e); }
   },
-  /* Persist already-mutated _qaData (used when caller mutates in place) */
-  syncQa: function() { saveQaData(); },
-  /* Mark a question as answered with the given content */
-  addAnswer: function(questionId, content) {
-    return this.updateQuestion(questionId, { answered: true, answerContent: content });
+  /* no-op in Supabase mode — kept for call-site compatibility */
+  syncQa: function() {},
+  /* ---- Insights ---- */
+  getAllInsights: function() { return _insightsData.slice(); },
+  addInsight: async function(data) {
+    var result = await _supabase.from('insights').insert({
+      id:       data.id,
+      title:    data.title,
+      content:  data.content,
+      date_str: data.dateStr,
+      badge:    data.badge || 'new',
+      is_seed:  !!data.isSeed,
+      file_url: data.fileUrl || null
+    });
+    if (result.error) {
+      alert('서버 저장 실패: ' + result.error.message);
+      return false;
+    }
+    _insightsData.push(data);
+    return true;
+  },
+  updateInsight: async function(id, patch) {
+    for (var i = 0; i < _insightsData.length; i++) {
+      if (_insightsData[i].id === id) {
+        var k;
+        for (k in patch) { if (patch.hasOwnProperty(k)) _insightsData[i][k] = patch[k]; }
+        break;
+      }
+    }
+    var dbPatch = {};
+    if ('title'   in patch) dbPatch.title    = patch.title;
+    if ('content' in patch) dbPatch.content  = patch.content;
+    if ('badge'   in patch) dbPatch.badge    = patch.badge;
+    if ('fileUrl' in patch) dbPatch.file_url = patch.fileUrl;
+    try {
+      if (Object.keys(dbPatch).length > 0)
+        await _supabase.from('insights').update(dbPatch).eq('id', id);
+    } catch(e) { console.error('[Supabase] updateInsight error:', e); }
+  },
+  deleteInsight: async function(id) {
+    _insightsData = _insightsData.filter(function(d) { return d.id !== id; });
+    try { await _supabase.from('insights').delete().eq('id', id); }
+    catch(e) { console.error('[Supabase] deleteInsight error:', e); }
+  },
+  /* no-op in Supabase mode — kept for call-site compatibility */
+  syncInsights: function() {},
+  /* 🚨 CRITICAL BUG FIX: ONLY update answered + answer_content.
+     NEVER send is_private or pw — those fields must remain exactly
+     as the original author set them, regardless of admin replies. */
+  addAnswer: async function(questionId, content) {
+    var result = await _supabase.from('qnas')
+      .update({ answered: true, answer_content: content })
+      .eq('id', questionId);
+    if (result.error) {
+      alert('서버 저장 실패: ' + result.error.message);
+      return false;
+    }
+    for (var i = 0; i < _qaData.length; i++) {
+      if (_qaData[i].id === questionId) {
+        _qaData[i].answered      = true;
+        _qaData[i].answerContent = content;
+        break;
+      }
+    }
+    return true;
   }
 };
 /* Backward-compat wrapper — still referenced by confirmDelete DOM calls */
@@ -3727,6 +4184,35 @@ function removeFromStore(itemId, type) {
   if (!itemId) return;
   if (type === 'notice') DataService.deleteNotice(itemId);
   else DataService.deleteQuestion(itemId);
+}
+/* Insight-specific delete confirm (always admin-only) */
+function confirmInsightDelete(e, btn) {
+  e.stopPropagation();
+  var item = btn.closest('.comm-item');
+  requestAdmin(function() {
+    var itemId = item.getAttribute('data-item-id');
+    item.remove();
+    updateInsightMirror(item);
+    if (itemId) DataService.deleteInsight(itemId);
+  }, '관리자 비밀번호를 입력하시오.');
+}
+/* Remove corresponding item from the insight full-view modal */
+function updateInsightMirror(removedItem) {
+  var mirror = document.getElementById('modal-insight-body');
+  if (!mirror) return;
+  var itemId = removedItem.getAttribute('data-item-id');
+  if (itemId) {
+    var match = mirror.querySelector('[data-item-id="' + itemId + '"]');
+    if (match) match.remove();
+    return;
+  }
+  var titleEl = removedItem.querySelector('.comm-item-title');
+  if (!titleEl) return;
+  var titleText = titleEl.textContent;
+  mirror.querySelectorAll('.comm-item').forEach(function(m) {
+    var t = m.querySelector('.comm-item-title');
+    if (t && t.textContent === titleText) m.remove();
+  });
 }
 /* Build a notice DOM element from a persisted data object */
 function makeNoticeItemEl(data) {
@@ -3772,32 +4258,46 @@ function makeNoticeItemEl(data) {
 }
 /* Build a Q&A DOM element from a persisted data object */
 function makeQaItemEl(data) {
-  var badgeHtml, displayBodyContent;
-  if (data.answered) {
+  var badgeHtml, displayBodyContent, privateBodyHtml;
+  if (data.isPrivate) {
+    /* ALL private posts — lock gate regardless of answered state */
+    badgeHtml = '<span class="comm-badge private">🔒 비공개</span>';
+    displayBodyContent =
+      '<div class="comm-private-gate">' +
+        '<div class="comm-private-gate-icon">🔒</div>' +
+        '<div class="comm-private-gate-msg">비공개 글입니다.<br>비밀번호 인증 후 열람 가능합니다.</div>' +
+        '<button class="comm-private-unlock-btn" onclick="unlockPrivateItem(event,this)">잠금 해제</button>' +
+      '</div>';
+    if (data.answered) {
+      /* Private + answered: store question + answer in private body */
+      privateBodyHtml =
+        (data.content ? '<p>' + escHtml(data.content) + '</p>' : '') +
+        '<p class="comm-answer-label">💬 Leonardo AI 답변</p>' +
+        '<p>' + escHtml(data.answerContent || '') + '</p>' +
+        '<button class="comm-answer-edit-btn" onclick="editAnswer(event,this)" title="답변 수정">✏️ 답변 수정</button>';
+    } else {
+      /* Private + unanswered: store question + pending in private body */
+      privateBodyHtml =
+        (data.content ? '<p>' + escHtml(data.content) + '</p>' : '') +
+        '<div class="comm-answer-pending">💬 답변 대기 중입니다.</div>' +
+        '<button class="comm-item-answer-btn" style="margin-top:12px;display:inline-flex;align-items:center;gap:6px;" ' +
+          'onclick="requestAnswer(event,this)" title="답변 달기">💬 답변 달기</button>';
+    }
+  } else if (data.answered) {
+    /* Public + answered */
     badgeHtml = '<span class="comm-badge answered">답변완료</span>';
     displayBodyContent =
       '<p class="comm-answer-label">💬 Leonardo AI 답변</p>' +
       '<p>' + escHtml(data.answerContent || '') + '</p>' +
       '<button class="comm-answer-edit-btn" onclick="editAnswer(event,this)" title="답변 수정">✏️ 답변 수정</button>';
   } else {
-    /* Pending answer — build real body content (used directly or stored for private gate) */
-    var realBody =
+    /* Public + unanswered */
+    badgeHtml = '<span class="comm-badge new">NEW</span>';
+    displayBodyContent =
       (data.content ? '<p>' + escHtml(data.content) + '</p>' : '') +
       '<div class="comm-answer-pending">💬 답변 대기 중입니다.</div>' +
       '<button class="comm-item-answer-btn" style="margin-top:12px;display:inline-flex;align-items:center;gap:6px;" ' +
         'onclick="requestAnswer(event,this)" title="답변 달기">💬 답변 달기</button>';
-    if (data.isPrivate) {
-      badgeHtml = '<span class="comm-badge private">🔒 비공개</span>';
-      displayBodyContent =
-        '<div class="comm-private-gate">' +
-          '<div class="comm-private-gate-icon">🔒</div>' +
-          '<div class="comm-private-gate-msg">비공개 글입니다.<br>비밀번호 인증 후 열람 가능합니다.</div>' +
-          '<button class="comm-private-unlock-btn" onclick="unlockPrivateItem(event,this)">잠금 해제</button>' +
-        '</div>';
-    } else {
-      badgeHtml = '<span class="comm-badge new">NEW</span>';
-      displayBodyContent = realBody;
-    }
   }
   var el = document.createElement('div');
   el.className = 'comm-item';
@@ -3805,14 +4305,9 @@ function makeQaItemEl(data) {
   el.setAttribute('data-own-pw', data.pw || '');
   el.setAttribute('data-item-id', data.id);
   if (data.isSeed) el.setAttribute('data-is-admin-only', 'true');
-  if (data.isPrivate && !data.answered) {
+  if (data.isPrivate) {
     el.setAttribute('data-private', 'true');
-    var realBodyForAttr =
-      (data.content ? '<p>' + escHtml(data.content) + '</p>' : '') +
-      '<div class="comm-answer-pending">💬 답변 대기 중입니다.</div>' +
-      '<button class="comm-item-answer-btn" style="margin-top:12px;display:inline-flex;align-items:center;gap:6px;" ' +
-        'onclick="requestAnswer(event,this)" title="답변 달기">💬 답변 달기</button>';
-    el.setAttribute('data-private-body', realBodyForAttr);
+    el.setAttribute('data-private-body', privateBodyHtml);
   }
   el.onclick = function() { toggleAccordion(this); };
   el.innerHTML =
@@ -3829,44 +4324,142 @@ function makeQaItemEl(data) {
     '<div class="comm-item-body"><div class="comm-item-body-inner">' + displayBodyContent + '</div></div>';
   return el;
 }
+/* Build an insight DOM element from a persisted data object */
+function makeInsightItemEl(data) {
+  var attachHtml = '';
+  if (data.fileUrl) {
+    var urls = data.fileUrl.split(',').map(function(u) { return u.trim(); }).filter(Boolean);
+    if (urls.length > 0) {
+      var linksHtml = urls.map(function(url, i) {
+        return '<a class="notice-attach-file-link" href="' + escHtml(url) + '" target="_blank" rel="noopener" onclick="event.stopPropagation()">📥 보고서 파일 ' + (urls.length > 1 ? (i + 1) : '') + ' 다운로드</a>';
+      }).join('');
+      attachHtml =
+        '<div class="notice-attachments"><div class="notice-attach-title">📎 첨부 보고서</div>' +
+        linksHtml +
+        '</div>';
+    }
+  }
+  var badgeClass = (data.badge === 'notice') ? 'notice' : 'new';
+  var badgeLabel = (data.badge === 'notice') ? '공지' : 'NEW';
+  var actionBtns =
+    '<button class="comm-item-edit" onclick="editInsight(event,this)" title="수정">✏️</button>' +
+    '<button class="comm-item-del" onclick="confirmInsightDelete(event,this)" title="삭제">🗑</button>';
+  var el = document.createElement('div');
+  el.className = 'comm-item';
+  el.setAttribute('data-date', data.dateStr);
+  el.setAttribute('data-item-id', data.id);
+  if (data.isSeed) el.setAttribute('data-is-admin-only', 'true');
+  el.onclick = function() { toggleAccordion(this); };
+  el.innerHTML =
+    '<div class="comm-item-header">' +
+      '<span class="comm-badge ' + badgeClass + '">' + badgeLabel + '</span>' +
+      '<span class="comm-item-title">' + escHtml(data.title) + '</span>' +
+      '<span class="comm-item-meta">' + data.dateStr + '</span>' +
+      actionBtns +
+      '<span class="comm-item-chevron">▼</span>' +
+    '</div>' +
+    '<div class="comm-item-body"><div class="comm-item-body-inner"><p>' + escHtml(data.content) + '</p>' + attachHtml + '</div></div>';
+  return el;
+}
 /* Render all data to DOM.
-   _noticesData and _qaData are already fully populated (seeds + any user additions)
-   by the lazy IIFEs above. This function clears all 4 containers and re-renders
-   everything from the merged arrays — no conditional guards, no static HTML remnants.
+   Fetches notices and qnas from Supabase asynchronously.
+   On first run (empty tables) seeds both tables with hardcoded defaults.
+   Falls back to seed arrays if Supabase is unreachable.
    Sort: newest-first (descending dateStr, e.g. "2026.05.10" > "2026.04.08"). */
-function loadSavedData() {
-  var noticeList  = document.getElementById('notice-list');
-  var modalNotice = document.getElementById('modal-notice-body');
-  var qaList      = document.getElementById('qa-list');
-  var modalQa     = document.getElementById('modal-qa-body');
-  /* Wipe any static HTML that may still be in the containers */
+async function loadSavedData() {
+  var noticeList   = document.getElementById('notice-list');
+  var modalNotice  = document.getElementById('modal-notice-body');
+  var qaList       = document.getElementById('qa-list');
+  var modalQa      = document.getElementById('modal-qa-body');
+  var insightList  = document.getElementById('insight-list');
+  var modalInsight = document.getElementById('modal-insight-body');
+  /* Show loading indicator while fetching */
+  var loadingHtml = '<div style="text-align:center;padding:40px;color:#aaa;font-size:14px;">⏳ 불러오는 중...</div>';
+  if (noticeList)  noticeList.innerHTML  = loadingHtml;
+  if (qaList)      qaList.innerHTML      = loadingHtml;
+  if (insightList) insightList.innerHTML = loadingHtml;
+  /* ---- Notices ---- */
+  try {
+    var nRes = await _supabase.from('notices').select('*').order('created_at', { ascending: false });
+    if (nRes.error) throw nRes.error;
+    var noticeRows = nRes.data;
+    if (!noticeRows || noticeRows.length === 0) {
+      var seedNoticeRows = _SEED_NOTICES.map(function(n) {
+        return { id: n.id, title: n.title, content: n.content, date_str: n.dateStr, badge: n.badge || 'new', is_seed: true, files: n.files || [] };
+      });
+      await _supabase.from('notices').insert(seedNoticeRows);
+      _noticesData = _SEED_NOTICES.slice();
+    } else {
+      _noticesData = noticeRows.map(function(r) { try { return dbToNotice(r); } catch(e) { console.error('[notices] row parse error:', e, r); return null; } }).filter(Boolean);
+    }
+  } catch(err) {
+    console.error('[Supabase] notices fetch error — falling back to seed data:', err);
+    _noticesData = _SEED_NOTICES.slice();
+  }
+  /* ---- Q&A ---- */
+  try {
+    var qRes = await _supabase.from('qnas').select('*').order('created_at', { ascending: false });
+    if (qRes.error) throw qRes.error;
+    var qaRows = qRes.data;
+    if (!qaRows || qaRows.length === 0) {
+      var seedQaRows = _SEED_QA.map(function(q) {
+        return { id: q.id, title: q.title, content: q.content || '', date_str: q.dateStr, pw: q.pw || '', is_private: !!q.isPrivate, is_seed: true, answered: !!q.answered, answer_content: q.answerContent || null };
+      });
+      await _supabase.from('qnas').insert(seedQaRows);
+      _qaData = _SEED_QA.slice();
+    } else {
+      _qaData = qaRows.map(function(r) { try { return dbToQa(r); } catch(e) { console.error('[qnas] row parse error:', e, r); return null; } }).filter(Boolean);
+    }
+  } catch(err) {
+    console.error('[Supabase] qnas fetch error — falling back to seed data:', err);
+    _qaData = _SEED_QA.slice();
+  }
+  /* ---- Insights ---- */
+  try {
+    var iRes = await _supabase.from('insights').select('*').order('created_at', { ascending: false });
+    if (iRes.error) throw iRes.error;
+    var insightRows = iRes.data;
+    if (!insightRows || insightRows.length === 0) {
+      var seedInsightRows = _SEED_INSIGHTS.map(function(ins) {
+        return { id: ins.id, title: ins.title, content: ins.content, date_str: ins.dateStr, badge: ins.badge || 'new', is_seed: true, file_url: ins.fileUrl || null };
+      });
+      await _supabase.from('insights').insert(seedInsightRows);
+      _insightsData = _SEED_INSIGHTS.slice();
+    } else {
+      _insightsData = insightRows.map(function(r) { try { return dbToInsight(r); } catch(e) { console.error('[insights] row parse error:', e, r); return null; } }).filter(Boolean);
+    }
+  } catch(err) {
+    console.error('[Supabase] insights fetch error — falling back to seed data:', err);
+    _insightsData = _SEED_INSIGHTS.slice();
+  }
+  /* Clear containers (removes loading indicator) and render */
   if (noticeList)  noticeList.innerHTML  = '';
   if (modalNotice) modalNotice.innerHTML = '';
   if (qaList)      qaList.innerHTML      = '';
   if (modalQa)     modalQa.innerHTML     = '';
+  if (insightList)  insightList.innerHTML  = '';
+  if (modalInsight) modalInsight.innerHTML = '';
   /* --- Notices (newest first) --- */
-  var sortedN = _noticesData.slice().sort(function(a, b) {
-    return b.dateStr > a.dateStr ? 1 : b.dateStr < a.dateStr ? -1 : 0;
-  });
+  var _toMs = function(s) { var p = (s||'').split('.'); return new Date(+p[0], +p[1]-1, +p[2]).getTime() || 0; };
+  var sortedN = _noticesData.slice().sort(function(a, b) { return _toMs(b.dateStr) - _toMs(a.dateStr); });
   sortedN.forEach(function(d) {
     if (noticeList)  noticeList.appendChild(makeNoticeItemEl(d));
     if (modalNotice) modalNotice.appendChild(makeNoticeItemEl(d));
   });
   /* --- Q&A (newest first) --- */
-  var sortedQ = _qaData.slice().sort(function(a, b) {
-    return b.dateStr > a.dateStr ? 1 : b.dateStr < a.dateStr ? -1 : 0;
-  });
+  var sortedQ = _qaData.slice().sort(function(a, b) { return _toMs(b.dateStr) - _toMs(a.dateStr); });
   sortedQ.forEach(function(d) {
     if (qaList)  qaList.appendChild(makeQaItemEl(d));
     if (modalQa) modalQa.appendChild(makeQaItemEl(d));
   });
-  /* Persist merged state to localStorage (seeds get saved on first visit, ensuring
-     future reloads use the hasSeed fast path and skip the prepend step). */
-  saveNoticesData();
-  saveQaData();
+  /* --- Insights (newest first) --- */
+  var sortedI = _insightsData.slice().sort(function(a, b) { return _toMs(b.dateStr) - _toMs(a.dateStr); });
+  sortedI.forEach(function(d) {
+    if (insightList)  insightList.appendChild(makeInsightItemEl(d));
+    if (modalInsight) modalInsight.appendChild(makeInsightItemEl(d));
+  });
   updateNoticeBadges();
-  /* Lift the initialization guard — all future save calls are now permitted */
-  _dataInitialized = true;
+  updateInsightBadges();
 }
 /* ---- Booking Modal ---- */
 function openBookingModal() {
@@ -3909,29 +4502,29 @@ function fallbackCopy(text, btn) {
    - 이벤트가 감지된 경우(정상 환경)엔 폴백 모달을 띄우지 않음
    ------------------------------------------------------------------------------ */
 function tryMailApp() {
-  var MAILTO = 'mailto:leo2026.con@gmail.com?subject='
-               + encodeURIComponent('15분 무료 진단 예약 요청');
-  /* mailto 호출 시도 (메일 앱이 설치된 환경에서는 자동으로 열림) */
-  try { window.location.href = MAILTO; } catch(e) {}
-  /* 동시에 이메일 안내 모달을 즉시 표시 — 메일 앱 미설치 환경 대응 */
-  showMailFb();
+  var MAILTO = 'mailto:leo2026.con@gmail.com?subject=15%EB%B6%84%20%EB%AC%B4%EB%A3%8C%20%EC%A7%84%EB%8B%A8%20%EC%98%88%EC%95%BD%20%EC%9A%94%EC%B2%AD';
+  var opened = false;
+  function onBlur() { opened = true; cleanup(); }
+  function onVis() { if (document.visibilityState === 'hidden') { opened = true; cleanup(); } }
+  function cleanup() {
+    window.removeEventListener('blur', onBlur);
+    document.removeEventListener('visibilitychange', onVis);
+  }
+  window.addEventListener('blur', onBlur);
+  document.addEventListener('visibilitychange', onVis);
+  window.location.href = MAILTO;
+  setTimeout(function() {
+    cleanup();
+    if (!opened) { openMailFb(); }
+  }, 800);
 }
-/* ---- Mail Fallback Modal ---- */
-function showMailFb() {
-  var el = document.getElementById('mail-fb-modal');
-  if (!el) return;
-  el.classList.add('open');
+function openMailFb() {
+  document.getElementById('mail-fb-modal').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
 function closeMailFb() {
-  var el = document.getElementById('mail-fb-modal');
-  if (!el) return;
-  el.classList.remove('open');
-  /* 예약 모달이 닫혀있으면 스크롤 복원 */
-  var booking = document.getElementById('booking-modal');
-  if (!booking || !booking.classList.contains('open')) {
-    document.body.style.overflow = '';
-  }
+  document.getElementById('mail-fb-modal').classList.remove('open');
+  document.body.style.overflow = '';
 }
 function closeMailFbOutside(e) {
   if (e.target === document.getElementById('mail-fb-modal')) closeMailFb();
@@ -3939,52 +4532,15 @@ function closeMailFbOutside(e) {
 function copyMailFbEmail() {
   var email = 'leo2026.con@gmail.com';
   var btn = document.getElementById('mail-fb-copy-btn');
-  function markCopied() {
-    if (btn) {
-      btn.textContent = '복사됨 ✓'; btn.style.background = '#22c55e';
-      setTimeout(function() {
-        btn.textContent = '이메일 주소 복사하기'; btn.style.background = '';
-      }, 2200);
-    }
-  }
   if (navigator.clipboard) {
-    navigator.clipboard.writeText(email).then(markCopied).catch(function() {
-      fallbackCopyMailFb(email, btn);
-    });
-  } else {
-    fallbackCopyMailFb(email, btn);
-  }
-}
-function fallbackCopyMailFb(text, btn) {
-  var ta = document.createElement('textarea');
-  ta.value = text; ta.style.cssText = 'position:fixed;opacity:0;top:0;left:0;';
-  document.body.appendChild(ta); ta.select();
-  try {
-    document.execCommand('copy');
-    if (btn) {
+    navigator.clipboard.writeText(email).then(function() {
       btn.textContent = '복사됨 ✓'; btn.style.background = '#22c55e';
-      setTimeout(function() {
-        btn.textContent = '이메일 주소 복사하기'; btn.style.background = '';
-      }, 2200);
-    }
-  } catch(ex) { alert('이메일 주소: ' + text); }
-  document.body.removeChild(ta);
+      setTimeout(function() { btn.textContent = '이메일 주소 복사하기'; btn.style.background = ''; }, 2000);
+    }).catch(function() { fallbackCopy(email, btn); });
+  } else { fallbackCopy(email, btn); }
 }
-/* ---- Init: script is at end of body so DOM is ready — call directly for zero-flash load ---- */
+/* ---- Initialization ---- */
 loadSavedData();
-/* ---- Smooth nav click ---- */
-document.querySelectorAll('a[href^="#"]').forEach(a => {
-  a.addEventListener('click', e => {
-    const id = a.getAttribute('href').slice(1);
-    const target = document.getElementById(id);
-    if (target) {
-      e.preventDefault();
-      const offset = 72;
-      const top = target.getBoundingClientRect().top + window.scrollY - offset;
-      window.scrollTo({ top, behavior: 'smooth' });
-    }
-  });
-});
 </script>
 </body>
 </html>
